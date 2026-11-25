@@ -14,30 +14,34 @@ public class Main {
         String borisId = "2";
         String borisName = "Борис";
         String borisEmail = "boris@example.com";
-        String borisPhone = "88005553535";
+        String borisPhone = "+79990001122";
         Set<String> borisChannels = Set.of("SMS", "Push");
         User boris = new User(borisId, borisName, borisEmail, borisPhone, borisChannels);
 
         List<User> users = Arrays.asList(anna, boris);
         NotificationService service = new NotificationService();
 
-        System.out.println("Запуск 1");
+        System.out.println("=== Первый запуск ===");
 
         String changeTitle = "Уведомление";
         String newRoom = "304";
         Notification changeNotification = new ClassroomChangeNotification(changeTitle, newRoom);
-        List<NotificationChannel> channels1 = Arrays.asList(new EmailChannel(), new SmsChannel());
+        List<NotificationChannel> firstRunChannels = Arrays.asList(new EmailChannel(), new SmsChannel());
 
-        service.broadcast(users, changeNotification, channels1);
+        service.broadcast(users, changeNotification, firstRunChannels);
 
-        System.out.println("\nЗапуск 2");
+        System.out.println("\n=== Второй запуск ===");
 
         String reminderTitle = "Напоминание";
         String assignmentName = "Лабораторная № 5";
         String deadlineDate = "13 ноября";
-        Notification deadlineNotification = new DeadlineReminderNotification(reminderTitle, assignmentName, deadlineDate);
-        List<NotificationChannel> channels2 = Arrays.asList(new EmailChannel(), new SmsChannel(), new PushChannel());
+        Notification deadlineNotification = new DeadlineReminderNotification(
+                reminderTitle, assignmentName, deadlineDate
+        );
+        List<NotificationChannel> secondRunChannels = Arrays.asList(
+                new EmailChannel(), new SmsChannel(), new PushChannel()
+        );
 
-        service.broadcast(users, deadlineNotification, channels2);
+        service.broadcast(users, deadlineNotification, secondRunChannels);
     }
 }
